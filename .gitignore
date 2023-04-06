@@ -1,1 +1,17 @@
 .DS_Store
+3rdparty/
+__MACOSX/
+mat/__pycache__/
+mat/algorithms/__pycache__/__init__.cpython-37.pyc
+mat/algorithms/mat/__pycache__/
+mat/algorithms/mat/algorithm/__pycache__/
+mat/algorithms/utils/__pycache__/
+mat/envs/__pycache__/__init__.cpython-37.pyc
+mat/envs/__pycache__/env_wrappers.cpython-37.pyc
+mat/envs/mpe/__pycache__/
+mat/envs/mpe/scenarios/__pycache__/__init__.cpython-37.pyc
+mat/envs/mpe/scenarios/__pycache__/simple_spread.cpython-37.pyc
+mat/runner/shared/__pycache__/base_runner.cpython-37.pyc
+mat/runner/shared/__pycache__/mpe_runner.cpython-37.pyc
+mat/scripts/results/
+mat/utils/__pycache__/
