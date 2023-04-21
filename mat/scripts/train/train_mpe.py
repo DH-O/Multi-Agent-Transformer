@@ -28,7 +28,7 @@ def make_train_env(all_args):
             return env
         return init_env
     if all_args.n_rollout_threads == 1:
-        return DummyVecEnv([get_env_fn(0)])
+        return DummyVecEnv([get_env_fn(0)]) # Multi-Tread가 아니면 여기로 가네? 그리고 make_train_env를 부르면 여기로 간 다음에 get_env_fn을 부르고, 거기서 return init_env를 통해 init_env를 부르는 것 같다.
     else:
         return SubprocVecEnv([get_env_fn(i) for i in range(all_args.n_rollout_threads)])
 
@@ -55,8 +55,10 @@ def parse_args(args, parser):
     parser.add_argument('--scenario_name', type=str,
                         default='simple_spread', help="Which scenario to run on")
     parser.add_argument("--num_landmarks", type=int, default=3)
+    # parser.add_argument('--num_agents', type=int,
+    #                     default=2, help="number of players")
     parser.add_argument('--num_agents', type=int,
-                        default=2, help="number of players")
+                        default=3, help="number of players")
 
     all_args = parser.parse_known_args(args)[0]
 
@@ -81,7 +83,7 @@ def main(args):
     else:
         print("choose to use cpu...")
         device = torch.device("cpu")
-        torch.set_num_threads(all_args.n_training_threads)
+        torch.set_num_threads(all_args.n_training_threads)  # 1이다.
 
     # run dir
     run_dir = Path(os.path.split(os.path.dirname(os.path.abspath(__file__)))[
@@ -116,7 +118,7 @@ def main(args):
             os.makedirs(str(run_dir))
 
     setproctitle.setproctitle(str(all_args.algorithm_name) + "-" + \
-        str(all_args.env_name) + "-" + str(all_args.experiment_name) + "@" + str(all_args.user_name))
+        str(all_args.env_name) + "-" + str(all_args.experiment_name) + "@" + str(all_args.user_name))   # 파이썬 프로세스 이름 바꾸는 작업
 
     # seed
     torch.manual_seed(all_args.seed)

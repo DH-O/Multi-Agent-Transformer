@@ -5,7 +5,7 @@ from torch.nn import functional as F
 
 def discrete_autoregreesive_act(decoder, obs_rep, obs, batch_size, n_agent, action_dim, tpdv,
                                 available_actions=None, deterministic=False):
-    shifted_action = torch.zeros((batch_size, n_agent, action_dim + 1)).to(**tpdv)
+    shifted_action = torch.zeros((batch_size, n_agent, action_dim + 1)).to(**tpdv)  # action_dim 한 개 늘린게 인상적이다.
     shifted_action[:, 0, 0] = 1
     output_action = torch.zeros((batch_size, n_agent, 1), dtype=torch.long)
     output_action_log = torch.zeros_like(output_action, dtype=torch.float32)

@@ -94,7 +94,7 @@ class MPERunner(Runner):
 
     @torch.no_grad()
     def collect(self, step):
-        self.trainer.prep_rollout()
+        self.trainer.prep_rollout() # 아무것도 없이 rollout하나? -> 그냥 policy를 eval mode로 바꿔주는 것
         value, action, action_log_prob, rnn_states, rnn_states_critic \
             = self.trainer.policy.get_actions(np.concatenate(self.buffer.share_obs[step]),
                             np.concatenate(self.buffer.obs[step]),

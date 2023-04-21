@@ -278,12 +278,12 @@ class MultiAgentTransformer(nn.Module):
     def get_actions(self, state, obs, available_actions=None, deterministic=False):
         # state unused
         ori_shape = np.shape(obs)
-        state = np.zeros((*ori_shape[:-1], 37), dtype=np.float32)
+        state = np.zeros((*ori_shape[:-1], 37), dtype=np.float32)   #왜 state를 37로 만들어준거지? 
 
-        state = check(state).to(**self.tpdv)
+        state = check(state).to(**self.tpdv) # self.tpdv = dict(dtype=torch.float32, device=device)
         obs = check(obs).to(**self.tpdv)
         if available_actions is not None:
-            available_actions = check(available_actions).to(**self.tpdv)
+            available_actions = check(available_actions).to(**self.tpdv)    
 
         batch_size = np.shape(obs)[0]
         v_loc, obs_rep = self.encoder(state, obs)

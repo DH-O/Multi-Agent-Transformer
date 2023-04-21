@@ -5,7 +5,6 @@ from mat.utils.util import get_shape_from_obs_space, get_shape_from_act_space
 from mat.algorithms.utils.util import check
 from mat.algorithms.mat.algorithm.ma_transformer import MultiAgentTransformer
 
-
 class TransformerPolicy:
     """
     MAT Policy  class. Wraps actor and critic networks to compute actions and value function predictions.
@@ -93,7 +92,7 @@ class TransformerPolicy:
         update_linear_schedule(self.optimizer, episode, episodes, self.lr)
 
     def get_actions(self, cent_obs, obs, rnn_states_actor, rnn_states_critic, masks, available_actions=None,
-                    deterministic=False):
+                    deterministic=False, evaluate = False):
         """
         Compute actions and value function predictions for the given inputs.
         :param cent_obs (np.ndarray): centralized input to the critic.
@@ -114,14 +113,13 @@ class TransformerPolicy:
 
         cent_obs = cent_obs.reshape(-1, self.num_agents, self.share_obs_dim)
         obs = obs.reshape(-1, self.num_agents, self.obs_dim)
-        if available_actions is not None:
+        if available_actions is not None: # None
             available_actions = available_actions.reshape(-1, self.num_agents, self.act_dim)
 
         actions, action_log_probs, values = self.transformer.get_actions(cent_obs,
-                                                                         obs,
-                                                                         available_actions,
-                                                                         deterministic)
-
+                                                                        obs,
+                                                                        available_actions,
+                                                                        deterministic)
         actions = actions.view(-1, self.act_num)
         action_log_probs = action_log_probs.view(-1, self.act_num)
         values = values.view(-1, 1)
@@ -224,5 +222,4 @@ class TransformerPolicy:
         self.transformer.train()
 
     def eval(self):
-        self.transformer.eval()
-
+        self.transformer.eval() # torch에서 제공하는 transformer.eval()입니다.
